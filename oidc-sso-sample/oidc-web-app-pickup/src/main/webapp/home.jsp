@@ -83,9 +83,13 @@
     }
 
     String scope = (String)session.getAttribute("scope");
-    String continued = "";
-    if (scope != null && scope.contains("acr")) {
-        continued = "true";
+    String cencelRide = (String)request.getParameter("cancelled");
+
+    String status = "";
+    if ("true".equals(cencelRide)) {
+        status = "cancelled";
+    } else if (scope != null && scope.contains("Booking")) {
+        status = "continued";
     }
 
 %>
@@ -218,11 +222,7 @@
                                                 <form class="book-confirm-form" role="form" action="oauth2-authorize-user.jsp?reset=true" method="post" id="login-form" autocomplete="off">
                                                     <div class="acr-container"></div>
                                                     <input type="submit" id="btn-confirm" class="btn btn-primary mt-5 pickup-btn book-btn text-center continue" value="CONFIRM"/>
-                                                    <input type="hidden" name="continue-check" id="continue-check" value="<%=continued%>" />
-                                                </form>
-                                                <form class="book-cancel-form" role="form" action="call-sp.jsp?username=<%=(String) session.getAttribute(OAuth2Constants.NAME)%>" method="post" id="login-form" autocomplete="off">
-                                                    <input type="hidden" name="csession_state" id="session_state" value="<%=sessionState%>"/>
-                                                    <input type="submit" id="btn-cancel" class="btn btn-primary mt-5 pickup-btn book-btn text-center continue" value="CANCEL"/>
+                                                    <input type="hidden" name="continue-check" id="continue-check" value="<%=status%>" />
                                                 </form>
                                             </div>
                                         </div>
@@ -236,6 +236,7 @@
                                                 <i class="fas fa-info-circle"></i> Could not find any registered
                                                 rides.
                                             </div>
+                                        <form class="book-cancel-form" role="form" action="call-sp.jsp?username=<%=(String) session.getAttribute(OAuth2Constants.NAME)%>" method="post" id="login-form" autocomplete="off">
                                             <div class="rides text-center">
                                                 <div class="row mb-3">
                                                     <div class="col-md-3 text-md-right mt-1 mt-md-3">
@@ -245,15 +246,22 @@
                                                         <div class="driver-name">Tiger Nixon</div>
                                                         <div class="driver-vehicle text-secondary">CAS 234</div>
                                                     </div>
-                                                    <div class="col-md-6 mt-md-5 ">
-                                                        <button type="button" class="btn btn-outline-primary share" role="button" aria-expanded="false"
-                                                        data-toggle="modal" data-target="#sampleModal" href="#">
-                                                            Share my ride
-                                                        </button>
-                                                        <button type="button" class="btn btn-outline-secondary cancel">
-                                                            Cancel
-                                                        </button>
-                                                    </div>
+
+                                                        <div class="col-md-6 mt-md-5 ">
+                                                            <button type="button" class="btn btn-outline-primary share" role="button" aria-expanded="false"
+                                                            data-toggle="modal" data-target="#sampleModal" href="#">
+                                                                Share my ride
+                                                            </button>
+                                                            <!--button type="button" class="btn btn-outline-secondary cancel">
+                                                                Cancel
+                                                            </button-->
+
+                                                                <input type="hidden" name="session_state" id="session_state" value="<%=sessionState%>"/>
+                                                                <button type="submit" id="btn-cancel" class="btn btn-outline-secondary cancel">
+                                                                                                                            Cancel
+                                                                                                                        </button>
+
+                                                        </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12 d-block mx-auto text-center">
@@ -271,6 +279,7 @@
                                                 </div>
                                                 <hr/>
                                             </div>
+                                        </form>
                                             <div class="past-rides">
                                                 <div class="row">
                                                     <div class="col-md-12">

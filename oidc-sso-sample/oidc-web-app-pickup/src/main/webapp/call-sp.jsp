@@ -26,7 +26,7 @@ try {
     httpClient.execute(postRequest);
 %>
 <script type="text/javascript">
-    window.location = "home.jsp?session_state=<%=sessionState%>";
+    window.location = "home.jsp?session_state=<%=sessionState%>&cancelled=true";
 </script>
 <%
     } catch (Exception e) {

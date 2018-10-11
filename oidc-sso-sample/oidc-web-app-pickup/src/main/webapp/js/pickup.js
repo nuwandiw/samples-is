@@ -23,13 +23,18 @@ $(document).ready(function () {
     var $selectVehicle = $('.select');
     var $continueBook = $('.continue');
     var $bookContainer = $('.book-container');
-    var $continued = $('#continue-check').val();
+    var $status = $('#continue-check').val();
 
-    if ($continued === "true") {
+    if ($status === "continued") {
         $('.nav-tabs a[href="#nav-rides"]').tab('show');
         $noRideMsg.hide();
         $rides.show();
         $actionResponse.hide();
+    } else if ($status === "cancelled") {
+        $('.nav-tabs a[href="#nav-rides"]').tab('show');
+        $rides.hide();
+        $actionResponse.hide();
+        $noRideMsg.show();
     } else {
         $rides.hide();
     }
@@ -55,7 +60,7 @@ $(document).ready(function () {
         $vehicleContainer.hide();
         $bookContainer.show();
     });
-    
+
     $('.cancel').on('click', function(){
         $rides.hide();
         $actionResponse.hide();
@@ -64,12 +69,12 @@ $(document).ready(function () {
 
     $('.ride-cat-signle').on('click', function(){
         $('.acr-container').empty();
-        $('.acr-container').append('<input name="acr_values" type="hidden" value="acr1" />');
+        $('.acr-container').append('<input name="acr_values" type="hidden" value="generalBooking" />');
     });
 
     $('.ride-cat-allday').on('click', function(){
         $('.acr-container').empty();
-        $('.acr-container').append('<input name="acr_values" type="hidden" value="acr2" />');
+        $('.acr-container').append('<input name="acr_values" type="hidden" value="allDayBooking" />');
 
     });
 
@@ -78,5 +83,5 @@ $(document).ready(function () {
         $selectVehicle.removeClass('active');
         $(this).addClass('active');
     });
-});
 
+});
